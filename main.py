@@ -5,9 +5,9 @@ from streamlit_folium import st_folium
 from core.matrix_utils import verileri_api_ile_getir
 from core.ant_algorithm import run_aco
 
-st.set_page_config(page_title="İzmir Rota Optimizasyonu", layout="wide")
+st.set_page_config(page_title="Bursa Rota Optimizasyonu", layout="wide")
 
-st.title("🚚 Milli Eğitim Müdürlüğü Rota Optimizasyonu")
+st.title("Bursa Liseler Arası En Kısa Yol Güzergahı")
 
 # 1. Algoritma Ayarları (Sidebar)
 with st.sidebar:
@@ -18,23 +18,21 @@ with st.sidebar:
     beta = st.slider("Beta (Mesafe Etkisi)", 0.0, 5.0, 2.0)
     evap = st.slider("Buharlaşma Oranı", 0.0, 1.0, 0.5)
 
-# Okul listesi
-okul_listesi = [
-    "İzmir İl Milli Eğitim Müdürlüğü",
-    "Aliağa Alp Oğuz Anadolu Lisesi",
-    "Foça Recep Kurbanoğlu Fen Lisesi",
-    "Menemen Şehit Ahmet Özsoy Fen Lisesi",
-    "Çiğli Teğmen Ali Rıza Akıncı AL",
-    "Bornova Anadolu Lisesi",
-    "Kemalpaşa Anadolu Lisesi",
-    "Ödemiş Fen Lisesi",
-    "Bayındır Ülfet Onart Anadolu Lisesi",
-    "Torbalı Anadolu Lisesi",
-    "Menderes Şehit Mehmet Kıvık AL",
-    "Selçuk Şehit Ömer Halisdemir BİST AL, İzmir",
-    "Seferihisar Semiha İrfan Çalı AL",
-    "Urla Hakan Çeken Anadolu Lisesi",
-    "Konak Anadolu Lisesi"
+
+adresler = [
+    "Bursa Büyükşehir Belediyesi, Osmangazi, Bursa",
+    "Bursa Anadolu Lisesi, Osmangazi, Bursa",
+    "Bursa Anadolu Erkek Lisesi, Osmangazi, Bursa",
+    "İMKB Gürsu Anadolu Lisesi, Gürsu, Bursa",
+    "Tofaş Fen Lisesi, Nilüfer, Bursa",
+    "Nilüfer Borsa İstanbul Fen Lisesi, Nilüfer, Bursa",
+    "Ahmet Hamdi Gökbayrak Fen Lisesi, Osmangazi, Bursa",
+    "Osmangazi Mesleki ve Teknik Anadolu Lisesi, Osmangazi, Bursa",
+    "Yeşilyayla Mesleki ve Teknik Anadolu Lisesi, Osmangazi, Bursa",
+    "Ali Osman Sönmez Mesleki ve Teknik Anadolu Lisesi, Osmangazi, Bursa",
+    "Atatürk Mesleki ve Teknik Anadolu Lisesi, Osmangazi, Bursa",
+    "Görükle Mesleki ve Teknik Anadolu Lisesi, Nilüfer, Bursa",
+    "Şehit Ömer Halisdemir Mesleki ve Teknik Anadolu Lisesi, Yıldırım, Bursa",
 ]
 
 # 2. SESSION STATE: Sonuçları hafızada tutmak için (Kritik Bölüm)
@@ -45,7 +43,7 @@ if 'hesaplandi' not in st.session_state:
 # 3. Hesaplama Butonu
 if st.button("Rotayı Oluştur ve Optimize Et"):
     with st.spinner("🚀 Veriler çekiliyor ve karıncalar yola çıkıyor..."):
-        koordinatlar, mesafe_matrisi = verileri_api_ile_getir(okul_listesi)
+        koordinatlar, mesafe_matrisi = verileri_api_ile_getir(adresler)
 
         if koordinatlar and mesafe_matrisi is not None:
             # Algoritmayı çalıştır
